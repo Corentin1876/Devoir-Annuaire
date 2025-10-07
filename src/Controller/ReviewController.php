@@ -37,7 +37,10 @@ class ReviewController extends AbstractController
         $review->setUser($user);
         $review->setDateCreation(new \DateTime());
 
-        $form = $this->createForm(ReviewType::class, $review);
+        $form = $this->createForm(ReviewType::class, $review, [
+            'action' => $this->generateUrl('review_new', ['id' => $player->getId()]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,8 +51,9 @@ class ReviewController extends AbstractController
             return $this->redirectToRoute('player_show', ['id' => $player->getId()]);
         }
 
-        return $this->render('review/new.html.twig', [
-            'form' => $form,
+        // Si non AJAX (fallback) on renvoie quand même un fragment de formulaire
+        return $this->render('review/_form.html.twig', [
+            'form' => $form->createView(),
             'player' => $player,
         ]);
     }

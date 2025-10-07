@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test bouton</title>
+</head>
+<body>
+    <button onclick="testFunction()" id="test-btn">Test Clic</button>
+    <div id="test-result"></div>
+    
+    <script>
+        function testFunction() {
+            document.getElementById('test-result').innerHTML = 'Le bouton fonctionne !';
+            console.log('Fonction appelée');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<div class="review-form-wrapper" id="review-form-wrapper">
+    {{ form_start(form, { attr: { id: 'review-form' } }) }}
+        {{ form_row(form.note) }}
+        {{ form_row(form.commentaire) }}
+        <button class="btn" type="submit">Envoyer mon avis</button>
+    {{ form_end(form) }}
+</div>

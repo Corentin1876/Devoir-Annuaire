@@ -2,7 +2,6 @@
 
 {% block title %}{{ player.prenom }} {{ player.nom }}{% endblock %}
 
-
 {% block body %}
 <h1>{{ player.prenom }} {{ player.nom }}</h1>
 
@@ -12,20 +11,47 @@
         <p><strong>Date de naissance:</strong> {{ player.dateNaissance|date('d/m/Y') }}</p>
         <p><strong>Catégorie:</strong> {{ player.category ? player.category.nom : 'Non défini' }}</p>
         <p><strong>Niveau:</strong> {{ player.level ? player.level.nom : 'Non défini' }}</p>
-        <p><strong>Note moyenne:</strong> ⭐ {{ player.averageRating }}/5</p>
+        <p id="average-rating-display"><strong>Note moyenne:</strong> ⭐ <span id="average-rating-value">{{ player.averageRating }}</span>/5</p>
     </div>
 </div>
 
 <div class="review-section">
-    <h2>Avis ({{ player.reviews|length }})</h2>
+    <h2>Avis (<span id="review-count">{{ player.reviews|length }}</span>)</h2>
 
     {% if is_granted('ROLE_USER') %}
-    <a href="{{ path('review_new', {id: player.id}) }}" class="btn">Laisser un avis</a>
+        {% if hasAlreadyReviewed %}
+            <div style="margin-top:15px; background:#fff3cd; padding:20px; border-radius:8px; border:1px solid #ffeaa7; color:#856404;">
+                <h4 style="margin-bottom:10px; color:#856404;">
+                    <i>✅</i> Avis déjà donné
+                </h4>
+                <p style="margin:0;">Vous avez déjà laissé un avis pour ce joueur. Vous ne pouvez donner qu'un seul avis par joueur.</p>
+            </div>
+        {% else %}
+            <div style="margin-top:15px; background:#f8f9fa; padding:20px; border-radius:8px; border:1px solid #dee2e6;">
+                <h4 style="margin-bottom:15px;">Laisser un avis</h4>
+                <form action="{{ path('review_new', {id: player.id}) }}" method="POST">
+                    <div style="margin-bottom:15px;">
+                        <label for="review-note" style="display:block; margin-bottom:5px; font-weight:bold;">Note (entre 1 et 5) :</label>
+                        <input type="number" name="review[note]" id="review-note" min="1" max="5" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;" placeholder="Saisissez une note de 1 à 5">
+                    </div>
+                    <div style="margin-bottom:15px;">
+                        <label for="review-comment" style="display:block; margin-bottom:5px; font-weight:bold;">Commentaire :</label>
+                        <textarea name="review[commentaire]" id="review-comment" rows="4" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px; resize:vertical;" placeholder="Partagez votre opinion sur ce joueur..."></textarea>
+                    </div>
+                    <input type="hidden" name="review[_token]" value="{{ csrf_token('review') }}">
+                    <div>
+                        <button type="submit" class="btn" style="background-color:#007bff; color:white; padding:10px 20px; border:none; border-radius:5px;">Envoyer mon avis</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
     {% else %}
-    <p><a href="{{ path('app_login') }}" class="btn">Connectez-vous pour laisser un avis</a></p>
+        <p><a href="{{ path('app_login') }}" class="btn">Connectez-vous pour laisser un avis</a></p>
     {% endif %}
 
-    <div class="review-list">
+    <div id="average-rating" style="margin:1rem 0; font-weight:bold;"><strong>Note moyenne:</strong> ⭐ <span id="average-rating-value">{{ player.averageRating }}</span>/5</div>
+
+    <div class="review-list" id="review-list">
         {% for review in player.reviews %}
         <div class="review-item">
             <div class="review-header">
@@ -40,6 +66,8 @@
         {% endfor %}
     </div>
 </div>
+
+
 
 <a href="{{ path('home') }}" class="back-link">← Retour à l'accueil</a>
 {% endblock %}
