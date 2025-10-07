@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Niveau{% endblock %}
+
+{% block body %}
+<h1>Modifier Niveau</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    <button class="btn" type="submit">Modifier</button>
+    <a href="{{ path('admin_level_index') }}">Retour</a>
+{{ form_end(form) }}
+{% endblock %}

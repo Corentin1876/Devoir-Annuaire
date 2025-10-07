@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes avis{% endblock %}
+
+{% block body %}
+<h1>Mes avis</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Joueur</th>
+            <th>Note</th>
+            <th>Commentaire</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for review in reviews %}
+        <tr>
+            <td><a href="{{ path('player_show', {id: review.player.id}) }}">{{ review.player.prenom }} {{ review.player.nom }}</a></td>
+            <td>{{ review.note }}/5</td>
+            <td>{{ review.commentaire }}</td>
+            <td>{{ review.dateCreation|date('d/m/Y') }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">Vous n'avez pas encore laissé d'avis.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

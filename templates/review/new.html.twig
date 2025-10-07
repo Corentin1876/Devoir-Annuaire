@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel avis{% endblock %}
+
+{% block body %}
+<h1>Laisser un avis pour {{ player.prenom }} {{ player.nom }}</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.note) }}
+    {{ form_row(form.commentaire) }}
+    <button class="btn" type="submit">Envoyer</button>
+    <a href="{{ path('player_show', {id: player.id}) }}">Retour</a>
+{{ form_end(form) }}
+{% endblock %}

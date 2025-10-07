@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Niveaux{% endblock %}
+
+{% block body %}
+<h1>Gestion des Niveaux</h1>
+
+<a href="{{ path('admin_level_new') }}" class="btn">Nouveau niveau</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for level in levels %}
+        <tr>
+            <td>{{ level.id }}</td>
+            <td>{{ level.nom }}</td>
+            <td>
+                <a href="{{ path('admin_level_edit', {id: level.id}) }}">Modifier</a>
+                <form method="post" action="{{ path('admin_level_delete', {id: level.id}) }}" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ level.id) }}">
+                    <button type="submit" onclick="return confirm('Confirmer la suppression?')">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">Aucun niveau</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

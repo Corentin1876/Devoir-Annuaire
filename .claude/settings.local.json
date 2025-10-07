@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php bin/console doctrine:migrations:status:*)",
+      "Bash(php bin/console make:crud:*)",
+      "Bash(composer:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

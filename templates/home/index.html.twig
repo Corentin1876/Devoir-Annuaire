@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire Sportif - C'Chartres{% endblock %}
+
+
+{% block body %}
+<h1>Annuaire Sportif C'Chartres</h1>
+
+<div class="players-grid">
+    {% for player in players %}
+    <div class="player-card">
+        <div class="player-photo">{{ player.prenom|first }}{{ player.nom|first }}</div>
+        <div class="player-info">
+            <div class="player-name"><a href="{{ path('player_show', {id: player.id}) }}">{{ player.prenom }} {{ player.nom }}</a></div>
+            <div class="player-category">{{ player.category ? player.category.nom : 'Non défini' }}</div>
+            <div class="player-rating">{{ player.averageRating }}/5</div>
+        </div>
+    </div>
+    {% else %}
+    <p>Aucun joueur enregistré pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}

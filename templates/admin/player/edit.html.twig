@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Joueur{% endblock %}
+
+{% block body %}
+<h1>Modifier Joueur</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.prenom) }}
+    {{ form_row(form.dateNaissance) }}
+    {{ form_row(form.category) }}
+    {{ form_row(form.level) }}
+    <button class="btn" type="submit">Modifier</button>
+    <a href="{{ path('admin_player_index') }}">Retour</a>
+{{ form_end(form) }}
+{% endblock %}
